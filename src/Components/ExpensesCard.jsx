@@ -25,13 +25,9 @@ class ExpensesCard extends React.Component  {
         const searchTerm = e.target.value
         this.setState({ searchText: searchTerm})
 
-        this.setState({
-            searchList: this.state.updatedExpensesList.filter(expenses => {
-                if (searchTerm === (expenses._expensesName.toLowerCase()) )
-                                    return this.state.searchList
-                                    console.log(this.state.searchList);
-                                })
-                            })
+        const searchListArray = this.state.updatedExpensesList
+        .filter(expenses => expenses._expensesName.toLowerCase() === searchTerm)
+        this.setState({searchList : searchListArray })
     }
     handleSearchSubmit = (e) => {
         e.preventDefault()   

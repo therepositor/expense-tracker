@@ -80,26 +80,19 @@ class ExistingSheet extends React.Component {
 
     handleSpendingLimitOptions = (e) => {
         e.preventDefault()
-        const selectedExpensesName = e.target.value
-    
-        this.state.expensesList.map(expenses => {
-            if (selectedExpensesName === expenses._expensesName)  {
-                return this.setState({
-                    selectSpendingLimit : expenses._spendingLimit,
-                    selectExpensesName : selectedExpensesName,
-                    expensesID : expenses._expensesID
-                })
-            }
-        })
-        console.log(this.state.selectSpendingLimit)
-        console.log(this.state.selectExpensesName)
-        console.log(this.state.expensesID)
+        const id = e.target.value;
+        const expenseObj = this.state.expensesList.filter(expense => expense._expensesID === id)[0];
+        console.log({expenseObj})
+        this.setState({
+            selectSpendingLimit: expenseObj._spendingLimit,
+            selectExpensesName: expenseObj._expensesName,
+            expensesID: expenseObj._expensesID
+        });
         
     }
 
     handleMerchantChange = (e) =>   {
         e.preventDefault()
-        const { merchant } = this.state
         const _merchant = e.target.value
         this.setState({
             merchant : _merchant
@@ -109,7 +102,6 @@ class ExistingSheet extends React.Component {
 
     handleDateChange = (e) =>   {
         e.preventDefault()
-        const { date } = this.state
         const _date = e.target.value
         this.setState({
             date : _date
@@ -118,7 +110,6 @@ class ExistingSheet extends React.Component {
 
     handleCurrencyChange = (e) => {
         e.preventDefault()
-        const { currency } = this.state
         const _currency = e.target.value
         this.setState({
             currency : _currency
@@ -127,7 +118,6 @@ class ExistingSheet extends React.Component {
 
     handleTotalChange = (e) =>  {
         e.preventDefault()
-        const { total } = this.state
         const _total = e.target.value
         this.setState({
             total : parseFloat(_total)
@@ -136,7 +126,6 @@ class ExistingSheet extends React.Component {
 
     handleDescriptionChange = (e) =>    {
         e.preventDefault()
-        const { description } = this.state
         const _description = e.target.value
         this.setState({
             description : _description
@@ -145,7 +134,6 @@ class ExistingSheet extends React.Component {
 
     handleCategoryChange = (e) =>   {
         e.preventDefault()
-        const { category } = this.state
         const _category = e.target.value
         this.setState({
             category : _category
@@ -164,8 +152,12 @@ class ExistingSheet extends React.Component {
                                   <select
                                         onChange = { this.handleSpendingLimitOptions } 
                                         name="spending-limit-select" id="spending-limit-select">
-                                        {this.state.expensesList.map((expense, index) => (<option key={index} value={expense._expensesName}>
-                                        {expense._expensesName}</option>) )}
+                                        {this.state.expensesList.map((expense, index) => (<option 
+                                        key={index} 
+                                        value={expense._expensesID}
+                                        >
+                                        {expense._expensesName}
+                                        </option>) )}
                                   </select>
                                   <span
                                         id='spending-limit'>Expended: {

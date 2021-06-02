@@ -21,25 +21,17 @@ class GenerateReport extends React.Component    {
         if (dbExpenses.length) this.setState({updatedExpensesList: dbExpenses}) 
     }
 
-    handleSelectOptionToGenerate = (e, selectedExpensesName) =>   {
+    handleSelectOptionToGenerate = (e) =>   {
         e.preventDefault()
-         selectedExpensesName = e.target.value
+        const selectedExpensesName = e.target.value
     
-        this.state.updatedExpensesList.map(expenses => {
-            if (selectedExpensesName === expenses._expensesName && expenses._expensesID)  {
-                return this.setState({
+        const generateArr = this.state.updatedExpensesList.filter(expenses => expenses._expensesName === selectedExpensesName)      
+                 this.setState({
                     selectOptionToGenerate : selectedExpensesName,
                     selectOptionToGenerateText : selectedExpensesName,
-                    expensesSelected : expenses.expense
+                    expensesSelected : generateArr
                 })
-            }
-        })
-        this.setState({
-            expensesSelected : this.state.updatedExpensesList.filter(expenses => {
-               if (expenses._expensesName === selectedExpensesName) return this.state.expensesSelected
-                console.log(this.state.expensesSelected);
-            })
-        })
+        
     }
     
     render ()   {
@@ -83,7 +75,7 @@ class GenerateReport extends React.Component    {
                             {this.state.updatedExpensesList.map((expenses, index) => {
                                 if (this.state.selectOptionToGenerate === expenses._expensesName) {
 
-                                return <tr key = {index}>
+                                 <tr key = {index}>
                                         <td>{expenses.expense._date}</td>
                                         <td>{expenses.expense._merchant}</td>
                                         <td>{expenses.expense._description}</td>
@@ -91,12 +83,17 @@ class GenerateReport extends React.Component    {
                                         <td>{expenses.expense._total}</td>
                                 </tr>
                                 }
+                                return ''
                             })}
                             </tbody>
                         </table>
                           : ''}
                           
-                          <CSVLink style = {{textDecoration : 'none', fontSize : '2rem', color : 'brown' }} data =  {this.state.expensesSelected}>Download</CSVLink>
+                          <CSVLink 
+                                style = {{textDecoration : 'none', fontSize : '2rem', color : 'brown' }}
+                                data =  {this.state.expensesSelected}
+                                >Download
+                          </CSVLink>
                     </div>
                 </main>
             </div>
