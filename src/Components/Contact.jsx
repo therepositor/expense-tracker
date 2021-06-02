@@ -23,6 +23,12 @@ class Contact extends React.Component {
                             </a></li>
                             <li><a href = 'https://instagram.com/thegreymatta' target = '_blank'>
                                 <FontAwesomeIcon icon = {faInstagram} />
+
+
+
+
+
+                                
                             </a></li>
                         </ul>
                                              
