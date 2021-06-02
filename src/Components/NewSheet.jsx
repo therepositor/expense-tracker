@@ -1,7 +1,7 @@
 import React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimes } from '@fortawesome/free-solid-svg-icons'
+import Header from './Header.jsx'
 import { withRouter } from "react-router"
+import { v4 as uuidv4 } from 'uuid';
 
 
 
@@ -11,12 +11,9 @@ class NewSheet extends React.Component {
         this.state = {
             expensesName : '',
             spendingLimit : 0,
-            expensesList : []
+            expensesList : [],
+            expensesID : uuidv4(),
         }
-    }
-
-    closeNewSheet = (routeE) => {
-        this.props.history.push(routeE)
     }
 
     handleExpenseNameChange = (e) => {
@@ -38,11 +35,11 @@ class NewSheet extends React.Component {
         console.log(spendingLimit);
     }
 
-    handleFormSubmit = (e) =>    {
-        const { expensesName, spendingLimit, expensesList } = this.state
+    handleFormSubmit = (e, routeD) =>    {
+        const { expensesName, spendingLimit, expensesList, expensesID } = this.state
         e.preventDefault()
         let expenses = {
-            
+            _expensesID : expensesID,
             _expensesName: expensesName,
             _spendingLimit: spendingLimit,
             expense : {
@@ -70,30 +67,29 @@ class NewSheet extends React.Component {
                 localStorage.setItem('expensesList', JSON.stringify(newArr))
             }
         }
-        this.closeNewSheet('/1')
+        this.props.history.push('/existing-sheet')  
     }
     render()    {
         return (
-            <div>
-                <header>
-                     <nav>
-                         <FontAwesomeIcon onClick = {() => this.closeNewSheet('/1')} 
-                         id="faTimes" icon={faTimes}
-                         style={{ fontSize: '2rem'}} />
-                     </nav>
-                </header>
+            <div className = 'fluid-container'>
+                <Header />
                 <main>
                      <div className="sheet-layout">  
                          <form id='form' onSubmit={ this.handleFormSubmit}>
                               <div className="rows new-expenseID">
                                 <label htmlFor="expense-id">Expenses Name: </label><input 
-                                    id="expense-id" name="expense-id" 
-                                    placeholder="Expenses Name" type="text" 
+                                    id="expense-id"
+                                    name="expense-id" 
+                                    placeholder="Expenses Name" type="text"
                                     onChange = {this.handleExpenseNameChange} />
                                     <p></p>
                                 </div>
                                 <div className='rows spending-limit'>
-                                     <label htmlFor="spending-limit">Spending limit: </label><input name="spending-limit" id="spending-limit" placeholder="Budget" type="number"
+                                     <label htmlFor="spending-limit">Spending limit: </label><input 
+                                      name="spending-limit"
+                                      id="spending-limit"
+                                      placeholder="Budget"
+                                      type="number"
                                      onChange = { this.handleSpendingLimitChange} />
                                      <p></p>
                                 </div>

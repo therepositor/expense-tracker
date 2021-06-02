@@ -1,6 +1,6 @@
 import React from 'react'
 import Header from './Header.jsx'
-import { CSVLink, CSVDownload } from "react-csv";
+import { CSVLink } from "react-csv";
 
 
 class GenerateReport extends React.Component    {
@@ -9,7 +9,8 @@ class GenerateReport extends React.Component    {
         this.state = {
             updatedExpensesList : [] ,
             selectOptionToGenerate  : '' ,
-            selectOptionToGenerateText : ''
+            selectOptionToGenerateText : '',
+            expensesSelected : []
         }
 
     }
@@ -20,28 +21,27 @@ class GenerateReport extends React.Component    {
         if (dbExpenses.length) this.setState({updatedExpensesList: dbExpenses}) 
     }
 
-    handleSelectOptionToGenerate = (e) =>   {
+    handleSelectOptionToGenerate = (e, selectedExpensesName) =>   {
         e.preventDefault()
-        const selectedExpensesName = e.target.value
+         selectedExpensesName = e.target.value
     
         this.state.updatedExpensesList.map(expenses => {
-            if (selectedExpensesName === expenses._expensesName)  {
+            if (selectedExpensesName === expenses._expensesName && expenses._expensesID)  {
                 return this.setState({
                     selectOptionToGenerate : selectedExpensesName,
-                    selectOptionToGenerateText : selectedExpensesName
+                    selectOptionToGenerateText : selectedExpensesName,
+                    expensesSelected : expenses.expense
                 })
             }
         })
-    }
-    handleGenerateSubmit = (e) => {
-        this.state.updatedExpensesList.map((expenses, index) => {
-             if (this.state.selectOptionToGenerate === expenses._expensesName)   {
-                return <ul>
-                    <ol key={index}>{expenses.expense._total}</ol>
-                </ul>
-            }
+        this.setState({
+            expensesSelected : this.state.updatedExpensesList.filter(expenses => {
+               if (expenses._expensesName === selectedExpensesName) return this.state.expensesSelected
+                console.log(this.state.expensesSelected);
+            })
         })
     }
+    
     render ()   {
         return (
             <div className = 'fluid-container'>
@@ -52,8 +52,9 @@ class GenerateReport extends React.Component    {
                             <span id='generate-expense-text'>
                             {this.state.selectOptionToGenerateText} </span>
                         </h2>
+                        <hr />
                         
-                        <form action="" onSubmit = {this.handleGenerateSubmit}>
+                        <form style = {{margin : '1rem 0'}} action="" >
                             <div className = 'rows'>
                                 <label htmlFor='select-options-to-generate'>
                                 Select Expense to Generate: </label>
@@ -66,7 +67,6 @@ class GenerateReport extends React.Component    {
                                     
                                 </select>
                             </div>
-                            <input type="submit" value="Generate"/>
                         </form>
                         {this.state.selectOptionToGenerate ? 
                         <table>
@@ -75,7 +75,7 @@ class GenerateReport extends React.Component    {
                                         <th>Date</th>
                                         <th>Merchant</th>
                                         <th>Description</th>
-                                        <th>category</th>
+                                        <th>Category</th>
                                         <th>Total</th>
                                 </tr>
                             </thead>
@@ -95,8 +95,8 @@ class GenerateReport extends React.Component    {
                             </tbody>
                         </table>
                           : ''}
-                          <CSVLink data =  {this.state.updatedExpensesList}>Download me</CSVLink>
                           
+                          <CSVLink style = {{textDecoration : 'none', fontSize : '2rem', color : 'brown' }} data =  {this.state.expensesSelected}>Download</CSVLink>
                     </div>
                 </main>
             </div>

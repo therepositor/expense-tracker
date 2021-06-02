@@ -1,8 +1,8 @@
 import React from 'react'
 import Header from './Header.jsx'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEnvelope, whatsapp  } from '@fortawesome/free-solid-svg-icons'
-import { fab } from '@fortawesome/free-brands-svg-icons'
+import { faEnvelope  } from '@fortawesome/free-solid-svg-icons'
+import {  faWhatsapp } from '@fortawesome/free-brands-svg-icons'
 
 
 class Home extends React.Component  {
@@ -18,7 +18,7 @@ class Home extends React.Component  {
                     </div>
                     <div className="invite-buttons">
                         <button>Invite via whatsapp <span>
-                        <FontAwesomeIcon icon={['fab', 'whatsapp']} /></span></button>
+                        <FontAwesomeIcon icon={ faWhatsapp} /></span></button>
                         <button>Invite via e-mail <span>
                         <FontAwesomeIcon icon={faEnvelope} /></span>
                         </button>

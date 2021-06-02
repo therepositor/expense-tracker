@@ -41,21 +41,17 @@ class Header extends React.Component {
                                     <Link className="nav-link" 
                                     to="/generate-report"
                                     ref = {this.navLinkA}
-                                    // onClick = {this.closeMenu}
                                     >Generate report</Link></li>
                                 <li className="nav-item">
                                     <Link className="nav-link" 
                                     to="/expenses-card"
-                                    onClick = {() => this.handleLinkA('/4')}
                                     ref = {this.navLinkB}
-                                    // onClick = {this.closeMenu}
                                     >Expenses</Link></li>
                                 <li className="nav-item">
                                     <Link className="nav-link"
                                     ref = {this.navLinkC} 
-                                    to="/about"
-                                    // onClick = {this.closeMenu}
-                                    >about</Link>
+                                    to="/contact"
+                                    >Contact</Link>
                                 </li>
                             </ul>
                             <div onClick = {this.toggleHamburger}
@@ -65,11 +61,12 @@ class Header extends React.Component {
                                 <span className="bar"></span>
                                 <span className="bar"></span>
                             </div>
-                            <a href="/">expensify</a>
+                            <Link to = '/'>expense tracker</Link>
+                            
                             
                             <FontAwesomeIcon 
                             
-                            onClick = {() => this.handleSelectPage('/1')} 
+                            onClick = {() => this.handleSelectPage('/select-page')} 
                             style={{ fontSize: '2rem'}} id="add-expense" icon={faPlus}/>
                         
                         </nav>
